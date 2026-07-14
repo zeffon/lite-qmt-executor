@@ -48,22 +48,31 @@
 ```bash
 git clone https://github.com/lotey/lite-qmt-executor.git
 cd lite-qmt-executor
-pip install -r requirements.txt
+uv sync
 ```
+
+> 使用 [uv](https://docs.astral.sh/uv/) 作为包管理器。如果未安装 uv，请先通过 `pip install uv` 或参考官方文档安装。
 
 ### 配置
 
-编辑 `app/config.py`：
+项目通过 `.env` 文件管理敏感配置（已列入 `.gitignore`，不会误提交）。
 
-```python
+```bash
+# 复制模板，填入真实账号信息
+cp .env.example .env
+```
+
+编辑 `.env`：
+
+```ini
 # 必填
-QMT_PATH = r'D:\你的券商QMT\userdata_mini'  # 指向 QMT 安装目录下的 userdata_mini 子目录
-ACCOUNT_ID = '你的资金账号'  # 您的真实资金账号
+QMT_PATH = D:\你的券商QMT\userdata_mini   # 指向 QMT 安装目录下的 userdata_mini 子目录
+ACCOUNT_ID = 你的资金账号
 
-# 可选：WebSocket 信号网关（不需要就保持 None）
-GATEWAY_HOST = None
-GATEWAY_PORT = None
-GATEWAY_TOKEN = None
+# 可选：WebSocket 信号网关（不需要就留空）
+GATEWAY_HOST =
+GATEWAY_PORT =
+GATEWAY_TOKEN =
 ```
 
 ### 启动

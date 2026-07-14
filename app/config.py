@@ -10,8 +10,12 @@
 import os
 import logging
 from datetime import time, datetime
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+
+# 从 .env 文件加载环境变量（仅开发/本地运行，不影响已注入的系统环境变量）
+load_dotenv()
 
 
 class Config:
@@ -19,18 +23,18 @@ class Config:
 
     # ==================== API配置 ====================
     # HTTP 入口（始终启动）
-    HTTP_HOST = '0.0.0.0'
-    HTTP_PORT = 30015
+    HTTP_HOST = os.getenv('HTTP_HOST', '0.0.0.0')
+    HTTP_PORT = int(os.getenv('HTTP_PORT', '30015'))
 
-    # WebSocket 入口（连接 quant-gateway，三个都填了才启动，不需要就填 None）
-    GATEWAY_HOST = None
-    GATEWAY_PORT = None
-    GATEWAY_TOKEN = None
+    # WebSocket 入口（连接 quant-gateway，三个都填了才启动，不需要就留空）
+    GATEWAY_HOST = os.getenv('GATEWAY_HOST') or None
+    GATEWAY_PORT = int(os.getenv('GATEWAY_PORT')) if os.getenv('GATEWAY_PORT') else None
+    GATEWAY_TOKEN = os.getenv('GATEWAY_TOKEN') or None
 
     # ==================== QMT 配置 ====================
-    QMT_PATH = r'D:\国金证券QMT交易端\userdata_mini'  # ⚠️ 改为真实的 userdata_mini 目录
-    ACCOUNT_ID = '888888'  # ⚠️ 改为真实资金账号
-    BROKER_NAME = '国金证券0525'  # 消息前缀（用于多账户区分）
+    QMT_PATH = os.getenv('QMT_PATH', r'D:\国金证券QMT交易端\userdata_mini')
+    ACCOUNT_ID = os.getenv('ACCOUNT_ID', '888888')
+    BROKER_NAME = os.getenv('BROKER_NAME', '国金证券0525')
 
     # ==================== 交易时段（A股） ====================
     # 引擎只在该窗口内 tick，其他时间早返回不工作
@@ -38,7 +42,7 @@ class Config:
     TRADING_CLOSE = time(15, 0)
 
     # 买入总开关（设为 False 可临时屏蔽所有买入信号，卖出不受影响）
-    BUY_ENABLED = False
+    BUY_ENABLED = os.getenv('BUY_ENABLED', 'False').lower() == 'true'
 
     # 预定义交易时段边界对象，避免高频调用时重复实例化，极致压降时延
     _MORNING_START = time(9, 0)
@@ -68,11 +72,11 @@ class Config:
 
 
     # ==================== 日志配置 ====================
-    LOG_LEVEL = 'INFO'
-    LOG_DIR = 'logs'
-    LOG_FILE = 'qmt_trading.log'
-    LOG_BACKUP_DAYS = 7  # 日志按天滚动保留天数
-    WAL_BACKUP_DAYS = 7  # WAL 交易状态日志保留天数
+    LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+    LOG_DIR = os.getenv('LOG_DIR', 'logs')
+    LOG_FILE = os.getenv('LOG_FILE', 'qmt_trading.log')
+    LOG_BACKUP_DAYS = int(os.getenv('LOG_BACKUP_DAYS', '7'))
+    WAL_BACKUP_DAYS = int(os.getenv('WAL_BACKUP_DAYS', '7'))
 
     # ==================== 运行期动态变量 ====================
     # 今日初始总资产（启动成功后由 Broker 获取并更新）

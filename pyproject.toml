@@ -1,0 +1,17 @@
+[project]
+name = "lite-qmt-executor"
+version = "2.0.0"
+description = "miniQMT 量化交易执行器"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=2.3.0",
+    "waitress>=2.1.0",
+    "requests>=2.31.0",
+    "websocket-client>=1.6.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.uv.sources]
+# xtquant 不由 pip 安装，由 QMT 客户端自带 SDK 提供
+# broker.py 通过 sys.path.append 加载 <QMT_PATH>/bin.x64/Lib/site-packages/xtquant
