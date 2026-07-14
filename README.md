@@ -80,7 +80,7 @@ GATEWAY_TOKEN =
 **方法一：命令行手动拉起**
 首先确保 miniQMT 客户端已正常登录，然后执行：
 ```bash
-python main.py
+uv run python main.py
 ```
 
 **方法二：一键全自动拉起（推荐）**
@@ -146,7 +146,7 @@ lite-qmt-executor/
 ├── main.py                     # 装配入口（改这里注册你的策略）
 ├── qmt-run.bat                 # 一键启动脚本
 ├── qmt-stop.bat                # 一键关闭脚本
-├── requirements.txt
+├── pyproject.toml               # 项目的包管理/依赖配置
 ├── app/
 │   ├── config.py               # 底层调度与网络连接配置（本端基础参数在此修改）
 │   ├── core/

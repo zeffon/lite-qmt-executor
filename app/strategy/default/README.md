@@ -223,7 +223,7 @@ OpenHigh 卖完后，ProfitTier 下次扫到那只票时 `can_use_volume` 已经
 
 ### 只改参数
 
-去 `app/strategy/default/stg_config.py` 改对应常量，重启 `python main.py`。
+去 `app/strategy/default/stg_config.py` 改对应常量，重启 `uv run python main.py`。
 
 ### 改逻辑
 

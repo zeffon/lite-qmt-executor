@@ -3,8 +3,8 @@ title QMT-Executor
 cd /d %~dp0
 
 :: ====================================================
-:: ÅäÖÃËµÃ÷£ºÇë½«ÏÂ·½Â·¾¶¸ÄÎªÄãÕæÊµµÄ QMT °²×°Ä¿Â¼ºÍÖ´ÐÐÆ÷Ä¿Â¼
-:: ×¢Òâ£ºSINGLETON_PORT ±ØÐëÓë Python Ö´ÐÐÆ÷Ö÷Èë¿Ú main.py ÖÐµÄ _SINGLETON_PORT (Ä¬ÈÏ 59999) ±£³ÖÒ»ÖÂ£¡
+:: ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ë½«ï¿½Â·ï¿½Â·ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ QMT ï¿½ï¿½×°Ä¿Â¼ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
+:: ×¢ï¿½â£ºSINGLETON_PORT ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Python Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ main.py ï¿½Ðµï¿½ _SINGLETON_PORT (Ä¬ï¿½ï¿½ 59999) ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½
 :: ====================================================
 set "QMT_ROOT=C:\path\to\your\qmt_install_dir"
 set "EXECUTOR_DIR=%~dp0"
@@ -14,79 +14,79 @@ set "SINGLETON_PORT=59999"
 set "USERDATA_MINI=%QMT_ROOT%\userdata_mini"
 set "QMT_EXE=%QMT_ROOT%\bin.x64\XtItClient.exe"
 
-:: ¼ì²é·ÀÖØ¸´Æô¶¯£¨Ô­×ÓÐÔÒ»ÖÂÐÔ¼ì²â£©
-echo [¼ì²é] ÕýÔÚ¼ì²éÏµÍ³ÔËÐÐ×´Ì¬...
+:: ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ô¼ï¿½â£©
+echo [ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½×´Ì¬...
 
 set "EXECUTOR_RUNNING=0"
 set "QMT_RUNNING=0"
 
-:: A. Í¨¹ý³¢ÊÔ°ó¶¨¶Ë¿ÚÀ´¼ì²â Python Ö´ÐÐÆ÷ÊÇ·ñÒÑÔÚÔËÐÐ
-python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.bind(('127.0.0.1', %SINGLETON_PORT%))" >nul 2>&1 || set "EXECUTOR_RUNNING=1"
+:: A. Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ó¶¨¶Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Python Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+uv run python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.bind(('127.0.0.1', %SINGLETON_PORT%))" >nul 2>&1 || set "EXECUTOR_RUNNING=1"
 
-:: B. ¼ì²â¸ÃÂ·¾¶ÏÂµÄ QMT ¿Í»§¶Ë½ø³Ì (XtMiniQmt.exe) ÊÇ·ñÒÑÔÚÔËÐÐ
+:: B. ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Âµï¿½ QMT ï¿½Í»ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ (XtMiniQmt.exe) ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 wmic process where "name='XtMiniQmt.exe'" get ExecutablePath 2>nul | find /i "%QMT_ROOT%" >nul && set "QMT_RUNNING=1"
 
-:: Èç¹ûÈÎÒâÒ»¸öÒÑÆô¶¯£¬Ôò½øÈë¾¯¸æÂß¼­
+:: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¾¯ï¿½ï¿½ï¿½ß¼ï¿½
 if "%EXECUTOR_RUNNING%"=="1" goto SHOW_WARNING
 if "%QMT_RUNNING%"=="1" goto SHOW_WARNING
 goto START_CLEANUP
 
 :SHOW_WARNING
 echo ====================================================
-if "%EXECUTOR_RUNNING%"=="1" echo [¾¯¸æ] ¼ì²âµ½ Python Ö´ÐÐÆ÷ÒÑÔÚÔËÐÐÖÐ£¨¶Ë¿Ú %SINGLETON_PORT% ÒÑÕ¼ÓÃ£©£¡
-if "%QMT_RUNNING%"=="1" echo [¾¯¸æ] ¼ì²âµ½¸ÃÂ·¾¶ÏÂµÄ QMT ¿Í»§¶Ë (XtMiniQmt.exe) ÒÑ¾­ÔÚÔËÐÐÖÐ£¡
-echo [¾¯¸æ] ÇëÏÈ¹Ø±ÕÒÑÔËÐÐµÄ³ÌÐò¡£±¾´°¿Ú½«ÔÚ 5 Ãëºó×Ô¶¯¹Ø±Õ...
+if "%EXECUTOR_RUNNING%"=="1" echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½âµ½ Python Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½Ë¿ï¿½ %SINGLETON_PORT% ï¿½ï¿½Õ¼ï¿½Ã£ï¿½ï¿½ï¿½
+if "%QMT_RUNNING%"=="1" echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½âµ½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Âµï¿½ QMT ï¿½Í»ï¿½ï¿½ï¿½ (XtMiniQmt.exe) ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
+echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½È¹Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ³ï¿½ï¿½ò¡£±ï¿½ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ø±ï¿½...
 echo ====================================================
 ping -n 6 127.0.0.1 >nul
 exit /b 0
 
 :START_CLEANUP
-:: ÇåÀíÀ¬»ø»¥³âËø¡¢ÈÕÖ¾Óë±ÀÀ£ÎÄ¼þ
+:: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 echo ====================================================
-echo [ÇåÀí] ¿ªÊ¼ÇåÀíÒÔÏÂÄ¿Â¼ÖÐµÄÀ¬»øÎÄ¼þ£º
+echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 echo ====================================================
 
 if exist "%USERDATA_MINI%\log" (
-    echo [ÇåÀí] ÕýÔÚÇå³ýÈÕÖ¾Ä¿Â¼£º%USERDATA_MINI%\log
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Ä¿Â¼ï¿½ï¿½%USERDATA_MINI%\log
     rmdir /s /q "%USERDATA_MINI%\log" >nul 2>&1
     mkdir "%USERDATA_MINI%\log" >nul 2>&1
 )
 if exist "%USERDATA_MINI%\dumps" (
-    echo [ÇåÀí] ÕýÔÚÇå³ý±ÀÀ£×ª´¢Ä¿Â¼£º%USERDATA_MINI%\dumps
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ä¿Â¼ï¿½ï¿½%USERDATA_MINI%\dumps
     rmdir /s /q "%USERDATA_MINI%\dumps" >nul 2>&1
     mkdir "%USERDATA_MINI%\dumps" >nul 2>&1
 )
 
-echo [ÇåÀí] ÕýÔÚÉ¨Ãè²¢Çå³ý *__mutex ËøÎÄ¼þ...
+echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½É¨ï¿½è²¢ï¿½ï¿½ï¿½ *__mutex ï¿½ï¿½ï¿½Ä¼ï¿½...
 if exist "%USERDATA_MINI%" (
     dir /b /s "%USERDATA_MINI%\*__mutex" 2>nul
     del /f /q /s "%USERDATA_MINI%\*__mutex" >nul 2>&1
 )
-:: Æô¶¯ miniQMT ¿Í»§¶Ë
-echo [Æô¶¯] ÕýÔÚÀ­Æð miniQMT ¿Í»§¶Ë...
+:: ï¿½ï¿½ï¿½ï¿½ miniQMT ï¿½Í»ï¿½ï¿½ï¿½
+echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ miniQMT ï¿½Í»ï¿½ï¿½ï¿½...
 if exist "%QMT_EXE%" (
     start "" "%QMT_EXE%"
 ) else (
-    echo [´íÎó] Î´ÕÒµ½ QMT ºËÐÄ³ÌÐò£¬Çë¼ì²é QMT_ROOT Â·¾¶ÅäÖÃ: %QMT_EXE%
+    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ QMT ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ QMT_ROOT Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %QMT_EXE%
     pause
     exit /b 1
 )
 
-:: ¾ÍÐ÷ÑéÖ¤£¨×ÔÐý¼ì²â×î¶àµÈ´ý 60s£©
-echo [¼ì²â] ÕýÔÚµÈ´ý miniQMT µÇÂ¼¾ÍÐ÷£¨×ÔÐý¼ì²â×î¶à 60s£©...
+:: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½ 60sï¿½ï¿½
+echo [ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ÚµÈ´ï¿½ miniQMT ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 60sï¿½ï¿½...
 set "WAIT_COUNT=0"
 
 :CHECK_LOOP
 wmic process where "name='XtMiniQmt.exe'" get ExecutablePath 2>nul | find /i "%QMT_ROOT%" >nul
 if not errorlevel 1 (
-    echo [³É¹¦] ¼ì²âµ½ XtMiniQmt.exe ÒÑÔËÐÐ£¡
+    echo [ï¿½É¹ï¿½] ï¿½ï¿½âµ½ XtMiniQmt.exe ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
     goto :START_PYTHON
 )
 
 set /a "WAIT_COUNT+=1"
 if %WAIT_COUNT% geq 30 (
     echo ====================================================
-    echo [´íÎó] Æô¶¯³¬Ê±£¨60s£©£¬ÈÎÎñÊ§°Ü£¬ÇëÊÖ¶¯¼ì²é£¡£¡£¡
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½60sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½é£¡ï¿½ï¿½ï¿½ï¿½
     echo ====================================================
     pause
     exit /b 1
@@ -96,8 +96,8 @@ ping -n 3 127.0.0.1 >nul
 goto :CHECK_LOOP
 
 :START_PYTHON
-:: Æô¶¯ Python Ö´ÐÐÆ÷
-echo [Æô¶¯] ÕýÔÚÆô¶¯µ±Ç°Ä¿Â¼ÏÂµÄ Python Ö´ÐÐÆ÷...
+:: ï¿½ï¿½ï¿½ï¿½ Python Ö´ï¿½ï¿½ï¿½ï¿½
+echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ä¿Â¼ï¿½Âµï¿½ Python Ö´ï¿½ï¿½ï¿½ï¿½...
 cd /d %EXECUTOR_DIR%
-python main.py
+uv run python main.py
 
