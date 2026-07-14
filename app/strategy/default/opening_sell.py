@@ -206,6 +206,7 @@ class OpeningSellStrategy(SellStrategy):
                 _time.sleep(0.01)
             self._execute()
             self._executed_date = now.date()
+            return
 
     # ---------- 准备 ----------
 

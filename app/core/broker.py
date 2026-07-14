@@ -216,6 +216,24 @@ class QmtBroker:
             frozen_cash=asset.frozen_cash,
         )
 
+    def get_initial_total_asset(self, max_retries: int = 5, retry_interval: float = 10.0) -> float:
+        """
+        盘前安全获取并缓存初始总资产基准。内部自动带重试，避免 QMT 刚启动时接口未就绪。
+        :param max_retries: 最大重试次数
+        :param retry_interval: 每次重试间隔（秒）
+        :return: 总资产，全部重试失败后返回 0.0
+        """
+        for i in range(max_retries):
+            info = self.get_account_info()
+            if info and info.total_asset > 0:
+                logger.info(f"获取初始总资产成功: {info.total_asset:.2f}")
+                return info.total_asset
+            if i < max_retries - 1:
+                logger.warning(f"获取初始总资产失败，第 {i+1}/{max_retries} 次重试，{retry_interval}s 后重试...")
+                time.sleep(retry_interval)
+        logger.error(f"获取初始总资产失败（已重试 {max_retries} 次）")
+        return 0.0
+
     @_safe_call(default=list)
     def get_orders(self) -> List[OrderInfo]:
         orders = self.xt_trader.query_stock_orders(self.stock_account)

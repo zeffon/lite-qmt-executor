@@ -35,8 +35,7 @@ class TradingEngine:
         
         # 将 HeartbeatManager 交由引擎统一管控，便于共享状态给所有 Strategy
         self.heartbeat_manager = HeartbeatManager(
-            broker=self.broker,
-            interval_secs=Config.HEARTBEAT_INTERVAL_SECS
+            interval=Config.HEARTBEAT_INTERVAL_SECS
         )
         self.ctx.heartbeat_manager = self.heartbeat_manager
         

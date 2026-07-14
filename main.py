@@ -26,6 +26,7 @@ from app.core.trading_engine import TradingEngine
 
 # 默认策略（功能完整版，开箱即用）
 from app.strategy.default.accumulate_buy import AccumulateBuyStrategy
+from app.strategy.default.opening_sell import OpeningSellStrategy
 from app.strategy.default.profit_tier_sell import ProfitTierSellStrategy
 
 logger = logging.getLogger(__name__)
@@ -113,6 +114,7 @@ def build_engine() -> TradingEngine:
     engine.register_buy_strategy(AccumulateBuyStrategy())
 
     # 注册卖出策略
+    engine.register_sell_strategy(OpeningSellStrategy())
     engine.register_sell_strategy(ProfitTierSellStrategy())
 
     return engine
